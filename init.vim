@@ -196,3 +196,7 @@ let g:gitgutter_max_signs = 2000
 " force write
 command W w !sudo tee %
 
+" git WIP
+command Wip   Git add --all | G commit -m 'WIP'
+command Unwip Git reset HEAD~1
+
