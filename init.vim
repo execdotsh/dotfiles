@@ -3,26 +3,12 @@ syntax on
 filetype plugin on
 filetype indent plugin on
 
-" plugin manager
-call plug#begin()
-Plug 'airblade/vim-gitgutter'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-Plug 'nvim-lualine/lualine.nvim'
-Plug 'nvim-tree/nvim-tree.lua'
-Plug 'nvim-tree/nvim-web-devicons'
-Plug 'tpope/vim-fugitive'
-Plug 'Asheq/close-buffers.vim'
-call plug#end()
-
 " general settings
 set autochdir
 set autoindent
 set backspace=2
 set belloff=all
-set clipboard+=unnamedplus
+set clipboard=
 set completeopt=longest,menuone
 set copyindent
 set encoding=utf-8
@@ -52,17 +38,96 @@ set softtabstop=0
 set tabstop=4
 set termguicolors
 set updatetime=100
+
+" gui settings
 if has("gui_running")
-	set guifont=CaskaydiaCove\ NF\ 10
+	if has("gui_win32")
+		set guifont=CaskaydiaCove_NFM:h10
+		set renderoptions=type:directx
+	else
+		set guifont=CaskaydiaCove\ NF\ 10
+	endif
 	set guioptions=
 endif
 
-" theme
-lua require("catppuccin").setup({
-	\		transparent_background = false,
-	\		term_colors = true,
-	\	})
-colorscheme catppuccin-mocha
+" nvim
+if has('nvim')
+	call plug#begin()
+	Plug 'airblade/vim-gitgutter'
+	Plug 'nvim-lua/plenary.nvim'
+	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+	Plug 'nvim-lualine/lualine.nvim'
+	Plug 'nvim-tree/nvim-tree.lua'
+	Plug 'nvim-tree/nvim-web-devicons'
+	Plug 'tpope/vim-fugitive'
+	Plug 'Asheq/close-buffers.vim'
+	call plug#end()
+	lua require("catppuccin").setup({
+		\		transparent_background = false,
+		\		term_colors = true,
+		\	})
+	colorscheme catppuccin-mocha
+	"" NvimTree
+	lua require("nvim-tree").setup({
+		\ 	view = {
+		\ 		width = 50,
+		\ 		side = "right",
+		\ 	},
+		\ })
+	"" LuaLine
+	lua require("lualine").setup({
+		\ options = {
+		\ 		theme = "catppuccin",
+		\ 		disabled_filetypes = { "NvimTree" },
+		\ 	},
+		\ 	sections = {
+		\ 		lualine_a = {"mode"},
+		\ 		lualine_b = {"branch", "diff", "diagnostics"},
+		\ 		lualine_c = {},
+		\ 		lualine_x = {"encoding", "fileformat", "filetype"},
+		\ 		lualine_y = {"progress"},
+		\ 		lualine_z = {"location"}
+		\ 	},
+		\ 	inactive_winbar = {
+		\ 		lualine_a = {"%F"},
+		\ 		lualine_b = {},
+		\ 		lualine_c = {},
+		\ 		lualine_x = {},
+		\ 		lualine_y = {},
+		\ 		lualine_z = {},
+		\ 	},
+		\ 	winbar = {
+		\ 		lualine_a = {"%F"},
+		\ 		lualine_b = {},
+		\ 		lualine_c = {},
+		\ 		lualine_x = {},
+		\ 		lualine_y = {},
+		\ 		lualine_z = {"tabs"},
+		\ 	},
+		\ })
+	"" Telescope
+	lua require("telescope").setup({
+		\ 	defaults = {
+		\ 		borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
+		\ 	},
+		\ })
+	"" disable netrw
+	let g:loaded_netrw=1
+	let g:loaded_netrwPlugin=1
+	let g:netrw_banner=0
+	"" hide tabline for lualine
+	set showtabline=0
+else
+	call plug#begin()
+	Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+	Plug 'airblade/vim-gitgutter'
+	Plug 'tpope/vim-fugitive'
+	Plug 'Asheq/close-buffers.vim'
+	call plug#end()
+	colorscheme catppuccin_mocha
+endif
 
 " maps
 nnoremap <silent> <c-h> <c-w>h
@@ -90,6 +155,8 @@ nnoremap <silent> <leader>d :Bdelete menu<CR>
 "" fugitive
 nnoremap <silent> <leader>gs :Git<cr>
 nnoremap <silent> <leader>gl :Git log<cr>
+nnoremap <silent> <leader>gL :Git log %<cr>
+nnoremap <silent> <leader>gb :Git blame<cr>
 nnoremap <leader>gg :Git grep 
 nnoremap <leader>gG :Git grep -in 
 nnoremap <silent> <leader>gw yw:Git grep <c-f>p<cr>
@@ -123,58 +190,13 @@ autocmd Filetype as,asm
 autocmd Filetype htm,html
 	\ setlocal ts=2 sw=2
 
-" plugins / maps and config
-"" NvimTree
-lua require("nvim-tree").setup({
-	\ 	view = {
-	\ 		width = 50,
-	\ 		side = "right",
-	\ 	},
-	\ })
-"" LuaLine
-lua require("lualine").setup({
-	\ options = {
-	\ 		theme = "catppuccin",
-	\ 		disabled_filetypes = { "NvimTree" },
-	\ 	},
-	\ 	sections = {
-	\ 		lualine_a = {"mode"},
-	\ 		lualine_b = {"branch", "diff", "diagnostics"},
-	\ 		lualine_c = {},
-	\ 		lualine_x = {"encoding", "fileformat", "filetype"},
-	\ 		lualine_y = {"progress"},
-	\ 		lualine_z = {"location"}
-	\ 	},
-	\ 	inactive_winbar = {
-	\ 		lualine_a = {"%F"},
-	\ 		lualine_b = {},
-	\ 		lualine_c = {},
-	\ 		lualine_x = {},
-	\ 		lualine_y = {},
-	\ 		lualine_z = {},
-	\ 	},
-	\ 	winbar = {
-	\ 		lualine_a = {"%F"},
-	\ 		lualine_b = {},
-	\ 		lualine_c = {},
-	\ 		lualine_x = {},
-	\ 		lualine_y = {},
-	\ 		lualine_z = {"tabs"},
-	\ 	},
-	\ })
-"" Telescope
-lua require("telescope").setup({
-	\ 	defaults = {
-	\ 		borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
-	\ 	},
-	\ })
-"" netrw
-let g:loaded_netrw=1
-let g:loaded_netrwPlugin=1
-let g:netrw_banner=0
 "" GitGutter
 let g:gitgutter_max_signs = 2000
 
-"force write
+" force write
 command W w !sudo tee %
+
+" git WIP
+command Wip   Git add --all | G commit -m 'WIP'
+command Unwip Git reset HEAD~1
 
