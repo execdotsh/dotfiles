@@ -53,7 +53,12 @@ set tabstop=4
 set termguicolors
 set updatetime=100
 if has("gui_running")
-	set guifont=CaskaydiaCove\ NF\ 10
+	if has("gui_win32")
+		set guifont=CaskaydiaCove_NFM:h10
+		set renderoptions=type:directx
+	else
+		set guifont=CaskaydiaCove\ NF\ 10
+	endif
 	set guioptions=
 endif
 
