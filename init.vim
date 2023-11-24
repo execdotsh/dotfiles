@@ -69,7 +69,7 @@ if has('nvim')
 		\		term_colors = true,
 		\	})
 	colorscheme catppuccin-mocha
-"" NvimTree
+	"" NvimTree
 	lua require("nvim-tree").setup({
 		\ 	view = {
 		\ 		width = 50,
@@ -191,6 +191,6 @@ autocmd Filetype htm,html
 "" GitGutter
 let g:gitgutter_max_signs = 2000
 
-"force write
+" force write
 command W w !sudo tee %
 
