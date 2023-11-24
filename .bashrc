@@ -1,5 +1,5 @@
 
-if type __git_ps1
+if type __git_ps1 >/dev/null 2>&1
 then
 	git_branch_ps1() {
 		local branch=`__git_ps1 '%s'`
