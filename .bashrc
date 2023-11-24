@@ -18,6 +18,7 @@ PS1+='$(git_branch_ps1)' # git branch
 PS1+='\n└─$ '
 shopt -s globstar
 export EDITOR=nvim
+alias ll='ls -l'
 alias vi=nvim
 alias vim=nvim
 alias G=git
