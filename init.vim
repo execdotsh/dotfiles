@@ -156,6 +156,7 @@ nnoremap <silent> <leader>d :Bdelete menu<CR>
 nnoremap <silent> <leader>gs :Git<cr>
 nnoremap <silent> <leader>gl :Git log<cr>
 nnoremap <silent> <leader>gL :Git log %<cr>
+nnoremap <silent> <leader>gb :Git blame<cr>
 nnoremap <leader>gg :Git grep 
 nnoremap <leader>gG :Git grep -in 
 nnoremap <silent> <leader>gw yw:Git grep <c-f>p<cr>
