@@ -148,6 +148,7 @@ nnoremap <silent> <leader>q :quit<cr>
 nnoremap <silent> <leader>n :tabnew<cr>
 nnoremap <silent> <tab> :tabnext<cr>
 nnoremap <silent> <s-tab> :tabprevious<cr>
+nnoremap <silent> <bs> :tabmove -1<cr>
 nnoremap <silent> <leader>nh :nohlsearch<cr>
 nnoremap <silent> <leader>ct :terminal<cr>
 "" close-buffers
