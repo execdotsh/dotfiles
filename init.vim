@@ -113,6 +113,14 @@ if has('nvim')
 		\ 		borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
 		\ 	},
 		\ })
+		\ function live_grep_git_dir()
+		\ 	local git_dir = vim.fn.system(string.format("git -C %s rev-parse --show-toplevel", vim.fn.expand("%:p:h")))
+		\ 	git_dir = string.gsub(git_dir, "\n", "")
+		\ 	local opts = {
+		\ 		cwd = git_dir,
+		\ 	}
+		\ 	require('telescope.builtin').live_grep(opts)
+		\ end
 	"" disable netrw
 	let g:loaded_netrw=1
 	let g:loaded_netrwPlugin=1
@@ -168,7 +176,7 @@ nnoremap <silent> <leader>tt :NvimTreeToggle<CR>
 nnoremap <silent> <leader>tf :NvimTreeFindFile<CR>
 "" Telescope
 nnoremap <leader>ff <cmd>Telescope git_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <silent> <leader>fg :lua live_grep_git_dir()<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 "" COC
