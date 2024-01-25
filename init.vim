@@ -170,6 +170,7 @@ nnoremap <leader>gg :Git grep
 nnoremap <leader>gG :Git grep -in 
 nnoremap <silent> <leader>gw yw:Git grep <c-f>p<cr>
 nnoremap <silent> <leader>gW yw:Git grep -in <c-f>p<cr>
+nnoremap <silent> <leader>ge :Gedit<cr>
 "" NvimTree
 nnoremap <silent> <leader>to :NvimTreeFocus<CR>
 nnoremap <silent> <leader>tt :NvimTreeToggle<CR>
