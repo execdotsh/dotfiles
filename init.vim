@@ -180,6 +180,7 @@ nnoremap <leader>ff <cmd>Telescope git_files<cr>
 nnoremap <silent> <leader>fg :lua live_grep_git_dir()<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fj <cmd>Telescope jumplist<cr>
 "" COC
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
