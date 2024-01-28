@@ -56,7 +56,9 @@ if has('nvim')
 	Plug 'airblade/vim-gitgutter'
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
-	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	if !has("win32")
+		Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	endif
 	Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 	Plug 'nvim-lualine/lualine.nvim'
 	Plug 'nvim-tree/nvim-tree.lua'
@@ -90,6 +92,14 @@ if has('nvim')
 		\ 		lualine_y = {"progress"},
 		\ 		lualine_z = {"location"}
 		\ 	},
+		\ 	inactive_sections = {
+		\ 		lualine_a = {},
+		\ 		lualine_b = {},
+		\ 		lualine_c = {},
+		\ 		lualine_x = {},
+		\ 		lualine_y = {},
+		\ 		lualine_z = {},
+		\ 	},
 		\ 	inactive_winbar = {
 		\ 		lualine_a = {"%F"},
 		\ 		lualine_b = {},
@@ -99,7 +109,22 @@ if has('nvim')
 		\ 		lualine_z = {},
 		\ 	},
 		\ 	winbar = {
-		\ 		lualine_a = {"%F"},
+		\ 		lualine_a = {{
+		\ 			"filename",
+		\ 			fmt = function(str, ctx)
+		\ 				local path = vim.fn.expand("%:p")
+		\ 				local leave_space_for = 30
+		\ 				local hide_below = 5
+		\ 				local max_width = vim.fn.winwidth(ctx.tabnr) - leave_space_for
+		\ 				if max_width < hide_below then
+		\ 					return ""
+		\ 				end
+		\ 				if #path <= max_width then
+		\ 					return path
+		\ 				end
+		\ 				return "<"..path:sub(#path - max_width)
+		\ 			end
+		\ 		}},
 		\ 		lualine_b = {},
 		\ 		lualine_c = {},
 		\ 		lualine_x = {},
@@ -210,4 +235,3 @@ command W w !sudo tee %
 " git WIP
 command Wip   Git add --all | G commit -m 'WIP'
 command Unwip Git reset HEAD~1
-

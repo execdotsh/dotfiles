@@ -22,4 +22,5 @@ alias ll='ls -l'
 alias vi=nvim
 alias vim=nvim
 alias G=git
+stty -ixon
 
