@@ -292,6 +292,8 @@ autocmd Filetype as,asm
 	\ setlocal syntax=masm ts=10 sw=10
 autocmd Filetype htm,html
 	\ setlocal ts=2 sw=2
+autocmd Filetype fugitive
+	\ setlocal nonumber norelativenumber 
 
 "" GitGutter
 let g:gitgutter_max_signs = 2000
