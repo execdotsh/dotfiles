@@ -40,6 +40,7 @@ set termguicolors
 set updatetime=100
 set wildmode=longest,list,full
 set wildmenu
+set wildignorecase
 
 " Reverse the lines of the whole file or a visually highlighted block.
 	" :Rev is a shorter prefix you can use.
