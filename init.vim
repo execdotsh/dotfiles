@@ -38,6 +38,18 @@ set softtabstop=0
 set tabstop=4
 set termguicolors
 set updatetime=100
+set wildmode=longest,list,full
+set wildmenu
+
+" Reverse the lines of the whole file or a visually highlighted block.
+	" :Rev is a shorter prefix you can use.
+	" Adapted from http://tech.groups.yahoo.com/group/vim/message/34305
+	" stolen from: https://superuser.com/questions/189947/how-do-i-reverse-selected-lines-order-in-vim
+command! -nargs=0 -bar -range=% Reverse
+	\       let save_mark_t = getpos("'t")
+	\<bar>      <line2>kt
+	\<bar>      exe "<line1>,<line2>g/^/m't"
+	\<bar>  call setpos("'t", save_mark_t)
 
 " gui settings
 if has("gui_running")
@@ -64,13 +76,14 @@ if has('nvim')
 	Plug 'nvim-tree/nvim-tree.lua'
 	Plug 'nvim-tree/nvim-web-devicons'
 	Plug 'tpope/vim-fugitive'
+	Plug 'ojroques/nvim-osc52'
 	Plug 'Asheq/close-buffers.vim'
 	call plug#end()
 	lua require("catppuccin").setup({
 		\		transparent_background = false,
 		\		term_colors = true,
 		\	})
-	colorscheme catppuccin-frappe
+	colorscheme catppuccin-mocha
 	"" NvimTree
 	lua require("nvim-tree").setup({
 		\ 	on_attach = function(bufnr)
@@ -165,7 +178,7 @@ if has('nvim')
 		\ end
 		\ require("lualine").setup({
 		\ options = {
-		\ 		theme = "catppuccin",
+		\ 		theme = "catppuccin-mocha",
 		\ 	},
 		\ 	sections = {
 		\ 		lualine_a = {{
@@ -213,6 +226,26 @@ if has('nvim')
 		\ 		cwd = git_dir,
 		\ 	}
 		\ 	require('telescope.builtin').live_grep(opts)
+		\ end
+	"" OSC52
+	lua do
+		\ 	require('osc52').setup({
+		\ 		max_length = 0,
+		\ 		silent = false,
+		\ 		trim = false,
+		\ 		tmux_passthrough = true,
+		\ 	})
+		\ 	local function copy(lines, _)
+		\ 		require('osc52').copy(table.concat(lines, '\n'))
+		\ 	end
+		\ 	local function paste()
+		\ 		return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+		\ 	end
+		\ 	vim.g.clipboard = {
+		\ 		name = 'osc52',
+		\ 		copy = {['+'] = copy, ['*'] = copy},
+		\ 		paste = {['+'] = paste, ['*'] = paste},
+		\ 	}
 		\ end
 	"" disable netrw
 	let g:loaded_netrw=1
