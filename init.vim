@@ -72,7 +72,7 @@ if has('nvim')
 	if !has("win32")
 		Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 	endif
-	Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+	Plug 'projekt0n/github-nvim-theme'
 	Plug 'nvim-lualine/lualine.nvim'
 	Plug 'nvim-tree/nvim-tree.lua'
 	Plug 'nvim-tree/nvim-web-devicons'
@@ -80,11 +80,8 @@ if has('nvim')
 	Plug 'ojroques/nvim-osc52'
 	Plug 'Asheq/close-buffers.vim'
 	call plug#end()
-	lua require("catppuccin").setup({
-		\		transparent_background = false,
-		\		term_colors = true,
-		\	})
-	colorscheme catppuccin-mocha
+	lua require('github-theme').setup({})
+	colorscheme github_dark_high_contrast
 	"" NvimTree
 	lua require("nvim-tree").setup({
 		\ 	on_attach = function(bufnr)
@@ -178,8 +175,8 @@ if has('nvim')
 		\ 	return "<"..path:sub(#path - max_width)
 		\ end
 		\ require("lualine").setup({
-		\ options = {
-		\ 		theme = "catppuccin-mocha",
+		\ 	options = {
+		\ 		theme = "github_dark_high_contrast",
 		\ 	},
 		\ 	sections = {
 		\ 		lualine_a = {{
