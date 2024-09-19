@@ -10,7 +10,7 @@ test -z "$SPLITTER" && SPLITTER="#----------------------------------------------
 track_files() {
 	local action="$1"
 	"$action" "$PWD/.inputrc" "$HOME/.inputrc"
-	"$action" "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
+	"$action" "$PWD/init.lua" "$HOME/.config/nvim/init.lua"
 }
 
 backup_single() {
