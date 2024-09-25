@@ -11,6 +11,18 @@ else
 	}
 fi
 
+nvx() {
+	local nvx_pipe="$HOME/.cache/nvim/server.pipe"
+	if ! test -S "$nvx_pipe"
+	then
+		killall nvim
+		nohup nvim --listen "$nvx_pipe" &
+		disown
+		sleep 1
+	fi
+	nvim --remote-ui --server "$nvx_pipe"
+}
+
 PS1='┌─[\[\033[38;5;3m\]\t\[\033[00m]'
 PS1+='─[\[\033[01;32m\]\u@\h\[\033[00m\]]'
 PS1+='─[\[\033[01;34m\]\w\[\033[00m\]]'
@@ -22,4 +34,5 @@ alias ll='ls -l'
 alias vi=nvim
 alias vim=nvim
 alias G=git
+stty -ixon
 
