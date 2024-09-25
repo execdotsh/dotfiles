@@ -112,7 +112,7 @@ require("packer").startup(function(use)
 			vim.keymap.set('n', '<leader>fj', builtin.jumplist)
 		end,
 	})
-	
+
 	use({ "nvim-tree/nvim-web-devicons" })
 
 	use({
@@ -164,7 +164,7 @@ require("packer").startup(function(use)
 		["config"] = function()
 			require("neo-tree").setup({
 				enable_git_status = false,
-					["event_handlers"] = {
+				["event_handlers"] = {
 					{
 						["event"] = "file_opened",
 						["handler"] = function()
