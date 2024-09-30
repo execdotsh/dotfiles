@@ -64,6 +64,7 @@ vim.opt.updatetime = 100
 vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.wildmenu = true
 vim.opt.wildignorecase = true
+vim.opt.shell = os.getenv("NVIMSH")
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
