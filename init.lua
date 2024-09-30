@@ -13,6 +13,18 @@ function git_dir()
 	return string.gsub(dir, "\n", "")
 end
 
+local function is_unix()
+	return vim.fn.has("unix") == 1
+end
+
+local function has_exec(exec)
+	return vim.fn.executable(exec) == 1
+end
+
+local function has_env(env)
+	return os.getenv(env) ~= nil
+end
+
 -- general config
 
 --vim.opt.autochdir = true
@@ -147,10 +159,12 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({
-		"neoclide/coc.nvim",
-		["branch"] = "release",
-	})
+	if has_exec("node") then
+		use({
+			"neoclide/coc.nvim",
+			["branch"] = "release",
+		})
+	end
 
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
@@ -293,36 +307,37 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({
-		"tpope/vim-fugitive",
-		["config"] = function()
-			vim.keymap.set("n", "<leader>gs", ":Git<cr>", { ["silent"] = true })
-			vim.keymap.set("n", "<leader>gl", ":Git log --oneline<cr>", { ["silent"] = true })
-			vim.keymap.set("n", "<leader>gL", ":Git log --oneline %<cr>", { ["silent"] = true })
-			vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", { ["silent"] = true })
-			vim.keymap.set("n", "<leader>gg", ":Git grep ")
-			vim.keymap.set("n", "<leader>gG", ":Git grep -in ")
-			vim.keymap.set("n", "<leader>gw", "yw:Git grep <c-f>p<cr>", { ["silent"] = true })
-			vim.keymap.set("n", "<leader>gW", "yw:Git grep -in <c-f>p<cr>", { ["silent"] = true })
-			vim.keymap.set("n", "<leader>ge", ":Gedit<cr>", { ["silent"] = true })
-		end,
-	})
-
-	use({
-		"lewis6991/gitsigns.nvim",
-		["requires"] = {
-			"nvim-lua/plenary.nvim",
-		},
-		["config"] = function()
-			require("gitsigns").setup()
-			vim.keymap.set("n", "]c", function()
-				require("gitsigns").nav_hunk("next")
-			end)
-			vim.keymap.set("n", "[c", function()
-				require("gitsigns").nav_hunk("prev")
-			end)
-		end,
-	})
+	if has_exec("git") then
+		use({
+			"tpope/vim-fugitive",
+			["config"] = function()
+				vim.keymap.set("n", "<leader>gs", ":Git<cr>", { ["silent"] = true })
+				vim.keymap.set("n", "<leader>gl", ":Git log --oneline<cr>", { ["silent"] = true })
+				vim.keymap.set("n", "<leader>gL", ":Git log --oneline %<cr>", { ["silent"] = true })
+				vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", { ["silent"] = true })
+				vim.keymap.set("n", "<leader>gg", ":Git grep ")
+				vim.keymap.set("n", "<leader>gG", ":Git grep -in ")
+				vim.keymap.set("n", "<leader>gw", "yw:Git grep <c-f>p<cr>", { ["silent"] = true })
+				vim.keymap.set("n", "<leader>gW", "yw:Git grep -in <c-f>p<cr>", { ["silent"] = true })
+				vim.keymap.set("n", "<leader>ge", ":Gedit<cr>", { ["silent"] = true })
+			end,
+		})
+		use({
+			"lewis6991/gitsigns.nvim",
+			["requires"] = {
+				"nvim-lua/plenary.nvim",
+			},
+			["config"] = function()
+				require("gitsigns").setup()
+				vim.keymap.set("n", "]c", function()
+					require("gitsigns").nav_hunk("next")
+				end)
+				vim.keymap.set("n", "[c", function()
+					require("gitsigns").nav_hunk("prev")
+				end)
+			end,
+		})
+	end
 
 	use({
 		"chrisgrieser/nvim-early-retirement",
@@ -331,28 +346,30 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({
-		"ojroques/nvim-osc52",
-		["config"] = function()
-			require('osc52').setup({
-				["max_length"] = 0,
-				["silent"] = false,
-				["trim"] = false,
-				["tmux_passthrough"] = true,
-			})
-			local function copy(lines, _)
-				require('osc52').copy(table.concat(lines, '\n'))
+	if has_env("SSH_CONNECTION") then
+		use({
+			"ojroques/nvim-osc52",
+			["config"] = function()
+				require('osc52').setup({
+					["max_length"] = 0,
+					["silent"] = false,
+					["trim"] = false,
+					["tmux_passthrough"] = true,
+				})
+				local function copy(lines, _)
+					require('osc52').copy(table.concat(lines, '\n'))
+				end
+				local function paste()
+					return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+				end
+				vim.g.clipboard = {
+					["name"] =  "osc52",
+					["copy"] =  { ['+'] = copy, ['*'] = copy },
+					["paste"] = { ['+'] = paste, ['*'] = paste },
+				}
 			end
-			local function paste()
-				return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
-			end
-			vim.g.clipboard = {
-				["name"] =  "osc52",
-				["copy"] =  { ['+'] = copy, ['*'] = copy },
-				["paste"] = { ['+'] = paste, ['*'] = paste },
-			}
-		end
-	})
+		})
+	end
 
 end)
 
