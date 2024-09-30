@@ -89,7 +89,6 @@ require("packer").startup(function(use)
 
 	use({
 		"nvim-telescope/telescope.nvim",
-		["tag"] = '0.1.2',
 		["config"] = function()
 			require("telescope").setup({
 				["defaults"] = {
@@ -155,7 +154,6 @@ require("packer").startup(function(use)
 
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
-		["branch"] = "v3.x",
 		["requires"] = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
@@ -315,7 +313,6 @@ require("packer").startup(function(use)
 		["requires"] = {
 			"nvim-lua/plenary.nvim",
 		},
-		["tag"] = "v0.9.0",
 		["config"] = function()
 			require("gitsigns").setup()
 			vim.keymap.set("n", "]c", function()
