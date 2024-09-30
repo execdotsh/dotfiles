@@ -27,7 +27,6 @@ end
 
 -- general config
 
---vim.opt.autochdir = true
 vim.opt.autoindent = true
 vim.opt.backspace = "2"
 vim.opt.belloff = "all"
@@ -52,7 +51,6 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 7
 vim.opt.shiftwidth = 4
 vim.opt.showcmd  = true
---vim.opt.showtabline = true
 vim.opt.smartcase = true
 vim.opt.smartindent = true
 vim.opt.smartindent = true
@@ -229,13 +227,6 @@ require("packer").startup(function(use)
 					["position"] = "float",
 				})
 			end)
-			--[[
-			vim.api.nvim_create_autocmd('BufLeave', {
-				["callback"] = function(ev)
-					require("neo-tree.command").execute({ ["action"] = "close" })
-				end,
-			})
-			--]]
 		end,
 	})
 
