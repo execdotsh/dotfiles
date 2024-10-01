@@ -315,19 +315,11 @@ require("packer").startup(function(use)
 			end,
 		})
 		use({
-			"lewis6991/gitsigns.nvim",
-			["requires"] = {
-				"nvim-lua/plenary.nvim",
-			},
+			"airblade/vim-gitgutter",
 			["config"] = function()
-				require("gitsigns").setup()
-				vim.keymap.set("n", "]c", function()
-					require("gitsigns").nav_hunk("next")
-				end)
-				vim.keymap.set("n", "[c", function()
-					require("gitsigns").nav_hunk("prev")
-				end)
-			end,
+				vim.g.gitgutter_sign_added = "|"
+				vim.g.gitgutter_sign_modified = "|"
+			end
 		})
 	end
 
