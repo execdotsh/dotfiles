@@ -1,11 +1,11 @@
 
 -- utility
 
-function bufdir()
+local function bufdir()
 	return vim.fn.expand("%:p:h")
 end
 
-function git_dir()
+local function git_dir()
 	local dir = vim.fn.system(
 		string.format("git -C %s rev-parse --show-toplevel 2>/dev/null || echo .",
 		bufdir())
