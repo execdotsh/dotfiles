@@ -240,6 +240,8 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	use("archibate/lualine-time")
+
 	use({
 		"nvim-lualine/lualine.nvim",
 		["config"] = function()
@@ -291,7 +293,7 @@ require("packer").startup(function(use)
 					["lualine_a"] = { "mode" },
 					["lualine_b"] = { "branch", "diff", "diagnostics" },
 					["lualine_c"] = { "encoding", "fileformat", "filetype" },
-					["lualine_x"] = { "progress" },
+					["lualine_x"] = { "cdate", "ctime", "progress" },
 					["lualine_y"] = { "location" },
 					["lualine_z"] = { "tabs" },
 				},
