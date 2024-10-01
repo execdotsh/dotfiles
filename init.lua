@@ -316,13 +316,31 @@ require("packer").startup(function(use)
 				vim.keymap.set("n", "<leader>ge", ":Gedit<cr>", { ["silent"] = true })
 			end,
 		})
-		use({
-			"airblade/vim-gitgutter",
-			["config"] = function()
-				vim.g.gitgutter_sign_added = "|"
-				vim.g.gitgutter_sign_modified = "|"
-			end
-		})
+		if is_unix() then
+			use({
+				"airblade/vim-gitgutter",
+				["config"] = function()
+					vim.g.gitgutter_sign_added = "|"
+					vim.g.gitgutter_sign_modified = "|"
+				end
+			})
+		else
+			use({
+				"lewis6991/gitsigns.nvim",
+				["requires"] = {
+					"nvim-lua/plenary.nvim",
+				},
+				["config"] = function()
+					require("gitsigns").setup()
+					vim.keymap.set("n", "]c", function()
+						require("gitsigns").nav_hunk("next")
+					end)
+					vim.keymap.set("n", "[c", function()
+						require("gitsigns").nav_hunk("prev")
+					end)
+				end,
+			})
+		end
 	end
 
 	use({
