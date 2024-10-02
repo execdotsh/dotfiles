@@ -1,11 +1,11 @@
 
 -- utility
 
-local function bufdir()
+function bufdir()
 	return vim.fn.expand("%:p:h")
 end
 
-local function git_dir()
+function git_dir()
 	local dir = vim.fn.system(
 		string.format("git -C %s rev-parse --show-toplevel 2>/dev/null || echo .",
 		bufdir())
@@ -62,7 +62,9 @@ vim.opt.updatetime = 100
 vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.wildmenu = true
 vim.opt.wildignorecase = true
-vim.opt.shell = os.getenv("NVIMSH")
+if has_env("NVIMSH") then
+	vim.opt.shell = os.getenv("NVIMSH")
+end
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -100,6 +102,7 @@ require("packer").startup(function(use)
 
 	use({
 		"nvim-telescope/telescope.nvim",
+		["tag"] = "0.1.8",
 		["config"] = function()
 			require("telescope").setup({
 				["defaults"] = {
