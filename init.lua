@@ -296,8 +296,8 @@ require("packer").startup(function(use)
 					["lualine_a"] = { "mode" },
 					["lualine_b"] = { "branch", "diff", "diagnostics" },
 					["lualine_c"] = { "encoding", "fileformat", "filetype" },
-					["lualine_x"] = { "cdate", "ctime", "progress" },
-					["lualine_y"] = { "location" },
+					["lualine_x"] = { "cdate", "ctime" },
+					["lualine_y"] = { "progress", "location" },
 					["lualine_z"] = { "tabs" },
 				},
 			})
