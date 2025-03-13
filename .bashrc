@@ -15,8 +15,8 @@ nvx() {
 	local nvx_pipe="$HOME/.cache/nvim/server.pipe"
 	if ! test -S "$nvx_pipe"
 	then
-		killall nvim
-		nohup nvim --listen "$nvx_pipe" &
+		killall nvim >"/dev/null" 2>&1
+		nohup nvim --listen "$nvx_pipe" >"/dev/null" 2>&1 &
 		disown
 		sleep 1
 	fi

@@ -41,7 +41,7 @@ vim.opt.incsearch = true
 vim.opt.laststatus = 2
 vim.opt.list = true
 vim.opt.listchars = { ["tab"] = "» ", ["space"] = "·" }
-vim.o.backup = false
+vim.opt.backup = false
 vim.opt.expandtab = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
@@ -66,6 +66,14 @@ if has_env("NVIMSH") then
 	vim.opt.shell = os.getenv("NVIMSH")
 end
 
+-- ru lang
+vim.opt.langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
+
+vim.api.nvim_command("autocmd TermOpen * startinsert")               -- starts in insert mode
+vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")         -- no numbers
+vim.api.nvim_command("autocmd TermOpen * setlocal norelativenumber") -- no relative numbers
+vim.api.nvim_command("autocmd TermEnter * setlocal signcolumn=no")   -- no sign column
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -79,6 +87,8 @@ vim.keymap.set("n", "<Esc>h", "<c-w><s-h>", { ["silent"] = true })
 vim.keymap.set("n", "<Esc>j", "<c-w><s-j>", { ["silent"] = true })
 vim.keymap.set("n", "<Esc>k", "<c-w><s-k>", { ["silent"] = true })
 vim.keymap.set("n", "<Esc>l", "<c-w><s-l>", { ["silent"] = true })
+vim.keymap.set("n", "<leader>w", ":write<cr>", { ["silent"] = true })
+vim.keymap.set("n", "<leader>ц", ":write<cr>", { ["silent"] = true })
 vim.keymap.set("n", "<leader>n", "<c-w>v<c-w><s-t>", { ["silent"] = true })
 vim.keymap.set("n", "<leader>o", "<c-w>o", { ["silent"] = true })
 vim.keymap.set("n", "<leader>s", "<c-w>s", { ["silent"] = true })
@@ -115,12 +125,11 @@ require("packer").startup(function(use)
 					builtin.find_files()
 				end
 			end)
-			vim.keymap.set('n', '<leader>fc', builtin.find_files)
-			vim.keymap.set('n', '<leader>fa', builtin.find_files)
+			vim.keymap.set('n', '<leader>fF', builtin.find_files)
 			vim.keymap.set('n', '<leader>fg', function()
 				builtin.live_grep({ ["cwd"] = git_dir() })
 			end)
-			vim.keymap.set('n', '<leader>fd', builtin.live_grep)
+			vim.keymap.set('n', '<leader>fG', builtin.live_grep)
 			vim.keymap.set('n', '<leader>fb', builtin.buffers)
 			vim.keymap.set('n', '<leader>fj', builtin.jumplist)
 		end,
@@ -239,7 +248,7 @@ require("packer").startup(function(use)
 		"projekt0n/github-nvim-theme",
 		["config"] = function()
 			require('github-theme').setup()
-			vim.cmd.colorscheme("github_dark_high_contrast")
+			vim.cmd.colorscheme("github_dark_tritanopia")
 		end,
 	})
 
@@ -266,7 +275,7 @@ require("packer").startup(function(use)
 			end
 			require("lualine").setup({
 				["options"] = {
-					["theme"] = "github_dark_high_contrast",
+					["theme"] = "github_dark_tritanopia",
 				},
 				["sections"] = {
 					["lualine_a"] = {{
