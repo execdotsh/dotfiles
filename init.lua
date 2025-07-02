@@ -106,6 +106,23 @@ vim.keymap.set("n", "<leader>cd", function()
 	print(vim.cmd.pwd())
 end)
 
+-- clip sync
+
+if has_exec("clipc") then
+	local host = "localhost"
+	local port = 8086
+	vim.g.clipboard = {
+		name = 'clipd',
+		copy = {
+			["+"] = { "clipc", host, port, "--push" }
+		},
+		paste = {
+			["+"] = { "clipc", host, port, "--pull" }
+		}
+	}
+	vim.o.clipboard = "unnamedplus"
+end
+
 -- plugins
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -203,10 +220,12 @@ require("lazy").setup({
 		end
 	},
 
-	{ "projekt0n/github-nvim-theme", config = function()
-		require("github-theme").setup()
-		vim.cmd.colorscheme("github_dark_high_contrast")
-	end },
+	{ "olimorris/onedarkpro.nvim",
+		priority = 1000, -- Ensure it loads first
+		config = function()
+			vim.cmd("colorscheme onedark_dark")
+		end
+	},
 
 	{ "archibate/lualine-time" },
 
@@ -219,7 +238,6 @@ require("lazy").setup({
 			return (#path <= max_width) and path or "<" .. path:sub(#path - max_width)
 		end
 		require("lualine").setup({
-			options = { theme = "github_dark_high_contrast" },
 			sections = {
 				lualine_a = { { "filename", fmt = show_filename } },
 				lualine_b = {}, lualine_c = {},
@@ -293,14 +311,5 @@ require("lazy").setup({
 			})
 		end,
 	},
-
-	has_env("SSH_CONNECTION") and {
-		"ojroques/nvim-osc52", config = function()
-			require("osc52").setup({ max_length = 0, silent = false, trim = false, tmux_passthrough = true })
-			local function copy(lines, _) require("osc52").copy(table.concat(lines, "\n")) end
-			local function paste() return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") } end
-			vim.g.clipboard = { name = "osc52", copy = { ["+"] = copy, ["*"] = copy }, paste = { ["+"] = paste, ["*"] = paste } }
-		end
-	} or nil,
 })
 
