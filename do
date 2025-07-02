@@ -9,8 +9,9 @@ test -z "$SPLITTER" && SPLITTER="#----------------------------------------------
 
 track_files() {
 	local action="$1"
-	"$action" "$PWD/.inputrc" "$HOME/.inputrc"
-	"$action" "$PWD/init.lua" "$HOME/.config/nvim/init.lua"
+	"$action" "$PWD/.inputrc"          "$HOME/.inputrc"
+	"$action" "$PWD/init.lua"          "$HOME/.config/nvim/init.lua"
+	"$action" "$PWD/coc-settings.json" "$HOME/.config/nvim/coc-settings.json"
 }
 
 backup_single() {

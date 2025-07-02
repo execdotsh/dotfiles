@@ -274,12 +274,7 @@ require("lazy").setup({
 		end,
 	} or nil,
 
-	(is_unix() and {
-		"airblade/vim-gitgutter", config = function()
-			vim.g.gitgutter_sign_added = "|"
-			vim.g.gitgutter_sign_modified = "|"
-		end
-	}) or {
+	{
 		"lewis6991/gitsigns.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function()
 			require("gitsigns").setup()
 			vim.keymap.set("n", "]c", function() require("gitsigns").nav_hunk("next") end)
