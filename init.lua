@@ -1,8 +1,6 @@
 
 -- utility
 
---require('github-theme').setup()
-
 function bufdir()
 	return vim.fn.expand("%:p:h")
 end
@@ -220,11 +218,14 @@ require("lazy").setup({
 		end
 	},
 
-	{ "olimorris/onedarkpro.nvim",
-		priority = 1000, -- Ensure it loads first
+	{ 'projekt0n/github-nvim-theme',
+		name = 'github-theme',
+		lazy = false,
+		priority = 1000,
 		config = function()
-			vim.cmd("colorscheme onedark_dark")
-		end
+			require('github-theme').setup()
+			vim.cmd.colorscheme("github_dark_high_contrast")
+		end,
 	},
 
 	{ "archibate/lualine-time" },
@@ -274,13 +275,15 @@ require("lazy").setup({
 		end,
 	} or nil,
 
-	{
-		"lewis6991/gitsigns.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function()
+	has_exec("git") and {
+		"lewis6991/gitsigns.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
 			require("gitsigns").setup()
 			vim.keymap.set("n", "]c", function() require("gitsigns").nav_hunk("next") end)
 			vim.keymap.set("n", "[c", function() require("gitsigns").nav_hunk("prev") end)
 		end
-	},
+	} or nil,
 
 	{ "chrisgrieser/nvim-early-retirement", config = function()
 		require("early-retirement").setup({})
